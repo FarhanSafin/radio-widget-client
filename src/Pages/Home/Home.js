@@ -1,24 +1,40 @@
 import React from 'react';
 import useRadios from '../../hooks/useRadios';
-import './Home.css';
+import back from '../../assets/images/back-arrow.png'
+import power from '../../assets/images/switch.png'
+import HomeCSS from './Home.module.css';
 
 const Home = () => {
     const [radios] = useRadios();
 
     const handleClick = radio => {
-        console.log('clicked', radio.name)
-        document.getElementById('playing').innerHTML = `${radio.name}`;
+        document.getElementById('playing').innerHTML = `<span>Currently Playing:</span><br>${radio?.name}`;
     }
 
     return (
         <div>
-            {
-                radios.map(radio => <div key={radio._id}>
-                    <button onClick={() => handleClick(radio)} className='link'>{radio.name}</button>
-                    <h2>{radio.frequency}</h2>
-                </div>)
-          }
-          <h2>Currently Playing: <span id='playing'/></h2>
+            <div className={HomeCSS.card}>
+                <div className={HomeCSS.head}>
+                    <div>
+                        <button className={HomeCSS.headbutton}><img className={HomeCSS.back} src={back} alt=''/></button>
+                        <span className={HomeCSS.headingtitle}>STATIONS</span>
+                        <button className={HomeCSS.headbutton}><img className={HomeCSS.power} src={power} alt=''/></button>
+                    </div>
+                </div>
+
+                    {
+                        radios.map(radio => <div id='clicked' key={radio._id}>
+                        <div onClick={() => handleClick(radio)} className={HomeCSS.data}>
+                            <h3  className={HomeCSS.name}>{radio.name}</h3>
+                            <h3 className={HomeCSS.freq}>{radio.frequency}</h3>
+                        </div>
+                        <hr className={HomeCSS.line}/>
+                        </div>
+                        )
+                }
+
+                <div className={HomeCSS.playing} id='playing'/>
+            </div>
         </div>
     );
 };
